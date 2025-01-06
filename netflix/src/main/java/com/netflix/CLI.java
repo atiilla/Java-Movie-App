@@ -44,11 +44,13 @@ public class CLI implements Callable<Integer> {
     /*
      * Command to list all movies.
      * Users can specify limit and page number to display a subset of movies.
+     * netflix-cli list --limit 5 --page 1
+     * netflix-cli list --help (to display usage of list command)
     */
     @CommandLine.Command(name = "list", description = "List all movies", mixinStandardHelpOptions = true)
     void getMovieList(
-            @CommandLine.Option(names = { "--limit" }, description = "Number of movies per page") int limit,
-            @CommandLine.Option(names = { "--page" }, description = "Page number to display") int page) {
+            @CommandLine.Option(names = { "--limit" }, description = "Number of movies per page", defaultValue = "5") int limit,
+            @CommandLine.Option(names = { "--page" }, description = "Page number to display", defaultValue = "1") int page) {
         if (limit <= 0 || page <= 0) {
             System.out.println("Limit and page must be greater than 0.");
             return;
