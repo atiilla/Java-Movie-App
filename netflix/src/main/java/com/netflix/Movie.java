@@ -2,6 +2,12 @@ package com.netflix;
 
 import java.util.Date;
 
+/*
+ * Movie class to store movie details
+ * @Params name, category, director, release_date, review
+ * @Return name, category, director, release_date, review
+ * @Override toString
+*/
 public class Movie {
     private String name;
     private String category;

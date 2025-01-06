@@ -3,13 +3,23 @@ import java.util.concurrent.Callable;
 
 import picocli.CommandLine;
 
+/*
+ @CommandLine.Command annotation is used to define the command name and description.
+ */
 @CommandLine.Command(name = "netflix-cli", mixinStandardHelpOptions = true, description = "Netflix CLI to manage movies")
 public class CLI implements Callable<Integer> {
     
+    /* 
+        @CommandLine.Option annotation is used to define the command line options.
+        The 'usageHelp' attribute is used to display the help message when the option is used.
+    */
     @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "Display help message")
     boolean helpRequested;
 
 
+    /*
+     * @CommandLine.Command annotation is used to define the subcommands.
+    */
     @CommandLine.Command(name = "add", description = "Add a movie")
     void addMovie() {
         System.out.println("Adding a movie");

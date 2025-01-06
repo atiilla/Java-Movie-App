@@ -9,18 +9,12 @@ import com.opencsv.exceptions.CsvException;
 
 import picocli.CommandLine;
 
-
-
 /*
-mvn compile && mvn exec:java -Dexec.mainClass="com.netflix.App"
-mvn clean package && java -jar target/netflix-1.0-SNAPSHOT.jar
- */
-/**
- * Hello world!
- *
- */
+  Main class for Netflix Movie CLI
+*/
 public class App 
 {
+    // CSV file path
     private static final String FILE_PATH = "src/main/resources/netflix_titles.csv";
 
     public static void main( String[] args )
@@ -40,16 +34,6 @@ public class App
             System.out.println("Total movies: " + movies.size()); // movies count
         }
 
-
-
-/*
- ─▄▀─▄▀
-──▀──▀
-█▀▀▀▀▀█▄
-█░░░░░█─█
-▀▄▄▄▄▄▀▀
-
- */
         System.out.println(
             "\n ─▄▀─▄▀ Netflix Movie CLI\n" +
             " ──▀──▀\n" +
@@ -63,6 +47,7 @@ public class App
     }
 
 
+    // Method to read CSV file and return list of movies
     public static List<String[]> readCsv() {
         try (CSVReader reader = new CSVReader(new FileReader(FILE_PATH))) {
             return reader.readAll();
