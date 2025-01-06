@@ -27,23 +27,52 @@ public class DBActions {
         } else {
             System.out.println("Movie not found");
         }
-        // System.out.println("Listing movies by name: " + name);
+     
     }
 
     public static void listByDirector(String director) {
-        System.out.println("Listing movies by director: " + director);
+        List<String[]> movie = getMovieByDirector(director);
+        if (movie != null) {
+            for (String[] m : movie) {
+                System.out.println("ID: " + m[0] + " | Type: " + m[1] + " | Title: " + m[2] + " | Director: " + m[3]);
+            }
+        } else {
+            System.out.println("Movie not found");
+        }
     }
 
     public static void listByCategory(String category) {
-        System.out.println("Listing movies by category: " + category);
+        List<String[]> movie = getMovieByCategory(category);
+        if (movie != null) {
+            for (String[] m : movie) {
+                System.out.println("ID: " + m[0] + " | Type: " + m[1] + " | Title: " + m[2] + " | Director: " + m[3]);
+            }
+        } else {
+            System.out.println("Movie not found");
+        }
     }
 
     public static void listByReleaseDate(String release_date) {
-        System.out.println("Listing movies by release date: " + release_date);
+        List<String[]> movie = getMovieByReleaseDate(release_date);
+        if (movie != null) {
+            for (String[] m : movie) {
+                System.out.println("ID: " + m[0] + " | Type: " + m[1] + " | Title: " + m[2] + " | Director: " + m[3]);
+            }
+        } else {
+            System.out.println("Movie not found");
+        }
     }
 
-    public static void listAll() {
-        System.out.println("Listing all movies");
+    public static void listAll(int limit, int page) {
+        List<String[]> movies = readCsv();
+        if (movies != null) {
+            int start = (page - 1) * limit;
+            int end = Math.min(start + limit, movies.size());
+            for (int i = start; i < end; i++) {
+                String[] movie = movies.get(i);
+                System.out.println("ID: " + movie[0] + " | Type: " + movie[1] + " | Title: " + movie[2] + " | Director: " + movie[3]);
+            }
+        }
     }
 
    // Method to read CSV file and return list of movies
@@ -72,6 +101,66 @@ public class DBActions {
             }
         }
         return foundMovies;
+    }
+
+    public static List<String[]> getMovieByDirector(String director) {
+        List<String[]> movies = readCsv();
+        List<String[]> foundMovies = null;
+        if (movies != null) {
+            for (String[] movie : movies) {
+                if (movie[3].toLowerCase().contains(director.toLowerCase())) {
+                    if (foundMovies == null) {
+                        foundMovies = new ArrayList<>();
+                    }
+                    foundMovies.add(movie);
+                }
+            }
+        }
+        return foundMovies;
+    }
+
+    public static List<String[]> getMovieByCategory(String category) {
+        List<String[]> movies = readCsv();
+        List<String[]> foundMovies = null;
+        if (movies != null) {
+            for (String[] movie : movies) {
+                if (movie[10].toLowerCase().contains(category.toLowerCase())) {
+                    if (foundMovies == null) {
+                        foundMovies = new ArrayList<>();
+                    }
+                    foundMovies.add(movie);
+                }
+            }
+        }
+        return foundMovies;
+    }
+
+    public static List<String[]> getMovieByReleaseDate(String release_date) {
+        List<String[]> movies = readCsv();
+        List<String[]> foundMovies = null;
+        if (movies != null) {
+            for (String[] movie : movies) {
+                if (movie[6].toLowerCase().contains(release_date.toLowerCase())) {
+                    if (foundMovies == null) {
+                        foundMovies = new ArrayList<>();
+                    }
+                    foundMovies.add(movie);
+                }
+            }
+        }
+        return foundMovies;
+    }
+
+    // get random 100 movies
+    public static List<String[]> getRandomMovies() {
+        List<String[]> movies = readCsv();
+        List<String[]> randomMovies = new ArrayList<>();
+        if (movies != null) {
+            for (int i = 0; i < 100; i++) {
+                randomMovies.add(movies.get(i));
+            }
+        }
+        return randomMovies;
     }
 
 }
