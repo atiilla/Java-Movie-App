@@ -1,6 +1,14 @@
 package com.netflix;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
+
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
+
 public class DBActions {
+    private static final String FILE_PATH = "src/main/resources/netflix_titles.csv";
     public static void addMovie(Movie movie) {
         System.out.println("Adding movie to database: " + movie.getName());
     }
@@ -27,6 +35,25 @@ public class DBActions {
 
     public static void listAll() {
         System.out.println("Listing all movies");
+    }
+
+    // Method to read CSV file and return list of movies
+    public static List<String[]> readCsv() {
+        try (CSVReader reader = new CSVReader(new FileReader(FILE_PATH))) {
+            return reader.readAll();
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Method to get a movie or movies by name
+    public static List<String[]> getMovieByName(String name) {
+        List<String[]> movies = readCsv();
+        if (movies == null) {
+            return null;
+        }
+        return movies;
     }
 
 }

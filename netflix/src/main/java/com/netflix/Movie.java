@@ -1,7 +1,5 @@
 package com.netflix;
 
-import java.util.Date;
-
 /*
  * Movie class to store movie details
  * @Params name, category, director, release_date, review
@@ -12,10 +10,10 @@ public class Movie {
     private String name;
     private String category;
     private String director;
-    private Date release_date;
+    private String release_date;
     private String review;
 
-    public Movie(String name, String category, String director, String review, String review1) {
+    public Movie(String name, String category, String director, String review, String release_date) {
         this.name = name;
         this.category = category;
         this.director = director;
@@ -35,7 +33,7 @@ public class Movie {
         return director;
     }
 
-    public Date getRelease_date() {
+    public String getRelease_date() {
         return release_date;
     }
 
@@ -55,7 +53,7 @@ public class Movie {
         this.director = director;
     }
 
-    public void setRelease_date(Date release_date) {
+    public void setRelease_date(String release_date) {
         this.release_date = release_date;
     }
 
