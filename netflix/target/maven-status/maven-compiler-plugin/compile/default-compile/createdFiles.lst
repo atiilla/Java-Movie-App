@@ -1,4 +1,5 @@
 com\netflix\App.class
 com\netflix\Movie.class
+com\netflix\SearchCommand.class
 com\netflix\DBActions.class
 com\netflix\CLI.class

@@ -45,10 +45,25 @@ public class CLI implements Callable<Integer> {
         System.out.println("Listing movies by release year");
     }
 
-    @CommandLine.Command(name = "name", description = "List movies by name")
-    void getByName() {
-        System.out.println("Listing movies by name");
+    // @CommandLine.Command(name = "name", description = "List movies by name")
+    // void getByName(@CommandLine.Parameters(description = "Movie name") List name) {
+    //     // Join the list of names into a single string
+    //     String strMovie = String.join(" ", name);
+
+    //     System.out.println("Listing movies by name: " + strMovie);
+    //     DBActions.listbyName(strMovie);
+    // }
+
+    // Search Command for name or year or category or director. With Subcommands
+    @CommandLine.Command(name = "search", description = "Search movies by name, year, category or director")
+    void search() {
+        SearchCommand searchCommand = new SearchCommand();
+        CommandLine searchCommandLine = new CommandLine(searchCommand);
+        searchCommandLine.execute();
     }
+
+
+    
 
     @CommandLine.Command(name = "list", description = "List all movies")
     void getMovieList() {
@@ -63,4 +78,39 @@ public class CLI implements Callable<Integer> {
         return 1;
     }
     
+}
+
+
+// Search Command for name or year or category or director. With Subcommands
+class SearchCommand {
+    @CommandLine.Option(names = {"-n", "--name"}, description = "Search movies by name")
+    String name;
+
+    @CommandLine.Option(names = {"-y", "--year"}, description = "Search movies by year")
+    String year;
+
+    @CommandLine.Option(names = {"-c", "--category"}, description = "Search movies by category")
+    String category;
+
+    @CommandLine.Option(names = {"-d", "--director"}, description = "Search movies by director")
+    String director;
+
+    @CommandLine.Command
+    void search() {
+        if (name != null) {
+            System.out.println("Searching movies by name: " + name);
+            
+        } else if (year != null) {
+            System.out.println("Searching movies by year: " + year);
+            DBActions.listByReleaseDate(year);
+        } else if (category != null) {
+            System.out.println("Searching movies by category: " + category);
+            DBActions.listByCategory(category);
+        } else if (director != null) {
+            System.out.println("Searching movies by director: " + director);
+            DBActions.listByDirector(director);
+        } else {
+            System.out.println("Please provide a search criteria");
+        }
+    }
 }

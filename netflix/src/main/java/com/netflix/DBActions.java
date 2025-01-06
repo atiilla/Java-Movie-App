@@ -2,11 +2,12 @@ package com.netflix;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-
+        // show_id,type,title,director,cast,country,date_added,release_year,rating,duration,listed_in,description
 public class DBActions {
     private static final String FILE_PATH = "src/main/resources/netflix_titles.csv";
     public static void addMovie(Movie movie) {
@@ -18,7 +19,15 @@ public class DBActions {
     }
 
     public static void listbyName(String name) {
-        System.out.println("Listing movies by name: " + name);
+        List<String[]> movie = getMovieByName(name);
+        if (movie != null) {
+            for (String[] m : movie) {
+                System.out.println("ID: " + m[0] + " | Type: " + m[1] + " | Title: " + m[2] + " | Director: " + m[3]);
+            }
+        } else {
+            System.out.println("Movie not found");
+        }
+        // System.out.println("Listing movies by name: " + name);
     }
 
     public static void listByDirector(String director) {
@@ -37,7 +46,7 @@ public class DBActions {
         System.out.println("Listing all movies");
     }
 
-    // Method to read CSV file and return list of movies
+   // Method to read CSV file and return list of movies
     public static List<String[]> readCsv() {
         try (CSVReader reader = new CSVReader(new FileReader(FILE_PATH))) {
             return reader.readAll();
@@ -50,10 +59,19 @@ public class DBActions {
     // Method to get a movie or movies by name
     public static List<String[]> getMovieByName(String name) {
         List<String[]> movies = readCsv();
-        if (movies == null) {
-            return null;
+        List<String[]> foundMovies = null;
+        if (movies != null) {
+            for (String[] movie : movies) {
+                
+                if (movie[2].toLowerCase().contains(name.toLowerCase())) {
+                    if (foundMovies == null) {
+                        foundMovies = new ArrayList<>();
+                    }
+                    foundMovies.add(movie);
+                }
+            }
         }
-        return movies;
+        return foundMovies;
     }
 
 }
