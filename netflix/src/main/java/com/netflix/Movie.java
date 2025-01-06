@@ -9,7 +9,7 @@ public class Movie {
     private Date release_date;
     private String review;
 
-    public Movie(String name, String category, String director, Date release_date, String review) {
+    public Movie(String name, String category, String director, String review, String review1) {
         this.name = name;
         this.category = category;
         this.director = director;

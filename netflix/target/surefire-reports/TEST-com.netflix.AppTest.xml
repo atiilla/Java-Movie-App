@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.netflix.AppTest" time="0.04" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.netflix.AppTest" time="0.028" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Microsoft\jdk-17.0.13.11-hotspot\bin"/>
-    <property name="sun.java.command" value="C:\Users\xor\AppData\Local\Temp\surefire10293672739029374277\surefirebooter12617600239818839568.jar C:\Users\xor\AppData\Local\Temp\surefire10293672739029374277 2025-01-06T14-15-43_122-jvmRun1 surefire1062971976620553481tmp surefire_08447409396135270603tmp"/>
+    <property name="sun.java.command" value="C:\Users\xor\AppData\Local\Temp\surefire4969069499046851846\surefirebooter643373162184709844.jar C:\Users\xor\AppData\Local\Temp\surefire4969069499046851846 2025-01-06T14-36-56_851-jvmRun1 surefire11468423902654456711tmp surefire_016630173982565007782tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\xor\Desktop\netflix-app\netflix\target\test-classes;C:\Users\xor\Desktop\netflix-app\netflix\target\classes;C:\Users\xor\.m2\repository\info\picocli\picocli\4.7.4\picocli-4.7.4.jar;C:\Users\xor\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\xor\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\xor\AppData\Local\Temp\surefire10293672739029374277\surefirebooter12617600239818839568.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\xor\AppData\Local\Temp\surefire4969069499046851846\surefirebooter643373162184709844.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.13+11-LTS"/>
@@ -58,5 +58,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="shouldAnswerWithTrue" classname="com.netflix.AppTest" time="0.002"/>
+  <testcase name="shouldAnswerWithTrue" classname="com.netflix.AppTest" time="0.001"/>
 </testsuite>
