@@ -10,14 +10,7 @@ import com.opencsv.exceptions.CsvException;
         // show_id,type,title,director,cast,country,date_added,release_year,rating,duration,listed_in,description
 public class DBActions {
     private static final String FILE_PATH = "src/main/resources/netflix_titles.csv";
-    public static void addMovie(Movie movie) {
-        System.out.println("Adding movie to database: " + movie.getName());
-    }
-
-    public static void addReview(Movie movie) {
-        System.out.println("Adding review to database: " + movie.getReview());
-    }
-
+   
     public static void listbyName(String name) {
         List<String[]> movie = getMovieByName(name);
         if (movie != null) {
@@ -161,6 +154,30 @@ public class DBActions {
             }
         }
         return randomMovies;
+    }
+
+    public static int generateMovieShowId(){
+        List<String[]> movies = readCsv();
+        // get the last movie show_id
+        String lastShowId = movies.get(movies.size() - 1)[0];
+        // increment the last show_id by 1
+        int newShowId = Integer.parseInt(lastShowId) + 1;
+        System.out.println("New show_id: " + newShowId);
+        return newShowId;
+    }
+
+    public static Movie findMovieById(String id) {
+        List<String[]> movies = readCsv();
+        
+        if (movies != null) {
+            for (String[] movie : movies) {
+                if (movie[0].equals(id)) {
+                    return new Movie(movie[0], movie[1], movie[2], movie[3], movie[4], movie[5], movie[6], Integer.parseInt(movie[7]), movie[8], movie[9], movie[10], movie[11], new ArrayList<>());
+                }
+            }
+        }
+        System.out.println("Movie not found");
+                return null;
     }
 
 }

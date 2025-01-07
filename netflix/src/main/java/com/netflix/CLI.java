@@ -1,7 +1,7 @@
 package com.netflix;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 
 import picocli.CommandLine;
@@ -30,6 +30,11 @@ public class CLI implements Callable<Integer> {
     @CommandLine.Command(name = "add", description = "Add a movie")
     void addMovie() {
         System.out.println("Adding a movie");
+        String showId = String.valueOf(DBActions.generateMovieShowId());
+        Movie movie = new Movie(showId, "Movie", "The Matrix", "Lana Wachowski", "Keanu Reeves, Laurence Fishburne",
+                "United States", "August 1, 2021", 1999, "R", "2h 16m", "Action & Adventure, Sci-Fi",
+                "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.", new ArrayList<>(Arrays.asList()));
+        System.out.println(movie);
     }
 
     /**
@@ -37,8 +42,22 @@ public class CLI implements Callable<Integer> {
      * This is a placeholder and should be extended with actual implementation.
      */
     @CommandLine.Command(name = "review", description = "Add a review")
-    void addReview() {
+    void addReview(
+            @CommandLine.Option(names = { "-i","--id" }, description = "Show ID of the movie to review") String showId,
+            @CommandLine.Option(names = { "-c","--comment" }, description = "Comment for the movie") String comment
+    ) {
+        
+        if (showId == null || comment == null) {
+            System.out.println("Show ID and comment are required.");
+            // Display usage 
+            return;
+        }
+
         System.out.println("Adding a review");
+        Object movie = DBActions.findMovieById(showId);
+        
+        // Movie updatedMovieObj = new Movie(movie[0], movie[1], movie[2], movie[3], movie[4], movie[5], movie[6], Integer.parseInt(movie[7]), movie[8], movie[9], movie[10], movie[11], new ArrayList<>());
+        
     }
 
     /*
