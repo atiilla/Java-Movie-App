@@ -33,7 +33,8 @@ public class CLI implements Callable<Integer> {
         String showId = String.valueOf(DBActions.generateMovieShowId());
         Movie movie = new Movie(showId, "Movie", "The Matrix", "Lana Wachowski", "Keanu Reeves, Laurence Fishburne",
                 "United States", "August 1, 2021", 1999, "R", "2h 16m", "Action & Adventure, Sci-Fi",
-                "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.", new ArrayList<>(Arrays.asList()));
+                "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+                new ArrayList<>(Arrays.asList()));
         System.out.println(movie);
     }
 
@@ -43,21 +44,22 @@ public class CLI implements Callable<Integer> {
      */
     @CommandLine.Command(name = "review", description = "Add a review")
     void addReview(
-            @CommandLine.Option(names = { "-i","--id" }, description = "Show ID of the movie to review") String showId,
-            @CommandLine.Option(names = { "-c","--comment" }, description = "Comment for the movie") String comment
-    ) {
-        
+            @CommandLine.Option(names = { "-i", "--id" }, description = "Show ID of the movie to review") String showId,
+            @CommandLine.Option(names = { "-c", "--comment" }, description = "Comment for the movie") String comment) {
         if (showId == null || comment == null) {
             System.out.println("Show ID and comment are required.");
-            // Display usage 
+            // Display usage
             return;
         }
 
-        System.out.println("Adding a review");
-        Object movie = DBActions.findMovieById(showId);
-        
-        // Movie updatedMovieObj = new Movie(movie[0], movie[1], movie[2], movie[3], movie[4], movie[5], movie[6], Integer.parseInt(movie[7]), movie[8], movie[9], movie[10], movie[11], new ArrayList<>());
-        
+        System.out.println("Adding a review...");
+
+        DBActions.addReview(showId, comment);
+
+        System.out.println("Review added successfully.");
+        System.out.println("Show ID: " + showId);
+        System.out.println("Comment: " + comment);
+
     }
 
     /*
@@ -65,16 +67,18 @@ public class CLI implements Callable<Integer> {
      * Users can specify limit and page number to display a subset of movies.
      * netflix-cli list --limit 5 --page 1
      * netflix-cli list --help (to display usage of list command)
-    */
+     */
     @CommandLine.Command(name = "list", description = "List all movies", mixinStandardHelpOptions = true)
     void getMovieList(
-            @CommandLine.Option(names = { "--limit" }, description = "Number of movies per page", defaultValue = "5") int limit,
-            @CommandLine.Option(names = { "--page" }, description = "Page number to display", defaultValue = "1") int page) {
+            @CommandLine.Option(names = {
+                    "--limit" }, description = "Number of movies per page", defaultValue = "5") int limit,
+            @CommandLine.Option(names = {
+                    "--page" }, description = "Page number to display", defaultValue = "1") int page) {
         if (limit <= 0 || page <= 0) {
             System.out.println("Limit and page must be greater than 0.");
             return;
         }
-       
+
         int start = (page - 1) * limit;
         System.out.printf("Fetching movies from %d to %d%n", start + 1, start + limit);
         DBActions.listAll(limit, page);

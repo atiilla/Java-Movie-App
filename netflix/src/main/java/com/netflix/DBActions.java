@@ -3,14 +3,16 @@ package com.netflix;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-        // show_id,type,title,director,cast,country,date_added,release_year,rating,duration,listed_in,description
+
+// show_id,type,title,director,cast,country,date_added,release_year,rating,duration,listed_in,description
 public class DBActions {
     private static final String FILE_PATH = "src/main/resources/netflix_titles.csv";
-   
+
     public static void listbyName(String name) {
         List<String[]> movie = getMovieByName(name);
         if (movie != null) {
@@ -20,7 +22,7 @@ public class DBActions {
         } else {
             System.out.println("Movie not found");
         }
-     
+
     }
 
     public static void listByDirector(String director) {
@@ -63,12 +65,13 @@ public class DBActions {
             int end = Math.min(start + limit, movies.size());
             for (int i = start; i < end; i++) {
                 String[] movie = movies.get(i);
-                System.out.println("ID: " + movie[0] + " | Type: " + movie[1] + " | Title: " + movie[2] + " | Director: " + movie[3]);
+                System.out.println("ID: " + movie[0] + " | Type: " + movie[1] + " | Title: " + movie[2]
+                        + " | Director: " + movie[3]);
             }
         }
     }
 
-   // Method to read CSV file and return list of movies
+    // Method to read CSV file and return list of movies
     public static List<String[]> readCsv() {
         try (CSVReader reader = new CSVReader(new FileReader(FILE_PATH))) {
             return reader.readAll();
@@ -84,7 +87,7 @@ public class DBActions {
         List<String[]> foundMovies = null;
         if (movies != null) {
             for (String[] movie : movies) {
-                
+
                 if (movie[2].toLowerCase().contains(name.toLowerCase())) {
                     if (foundMovies == null) {
                         foundMovies = new ArrayList<>();
@@ -156,7 +159,7 @@ public class DBActions {
         return randomMovies;
     }
 
-    public static int generateMovieShowId(){
+    public static int generateMovieShowId() {
         List<String[]> movies = readCsv();
         // get the last movie show_id
         String lastShowId = movies.get(movies.size() - 1)[0];
@@ -168,16 +171,43 @@ public class DBActions {
 
     public static Movie findMovieById(String id) {
         List<String[]> movies = readCsv();
-        
+
         if (movies != null) {
             for (String[] movie : movies) {
                 if (movie[0].equals(id)) {
-                    return new Movie(movie[0], movie[1], movie[2], movie[3], movie[4], movie[5], movie[6], Integer.parseInt(movie[7]), movie[8], movie[9], movie[10], movie[11], new ArrayList<>());
+                    // Ensure the array has at least 13 elements before accessing index 12
+                    List<String> reviews = movie.length > 12 && movie[12] != null
+                            ? Arrays.asList(movie[12].split("\\|"))
+                            : new ArrayList<>();
+                    return new Movie(
+                            movie[0], movie[1], movie[2], movie[3], movie[4], movie[5], movie[6],
+                            Integer.parseInt(movie[7]), movie[8], movie[9], movie[10], movie[11], reviews);
                 }
             }
         }
         System.out.println("Movie not found");
-                return null;
+        return null;
     }
+
+    public static void addReview(String showId, String comment) {
+        Movie movie = findMovieById(showId);
+        if (movie == null) {
+            System.out.println("Movie not found. Cannot add review.");
+            return;
+        }
+    
+        // Add my comment to the movie 
+        try {
+            movie.addReview(comment);
+            System.out.println("Review added successfully!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid review comment: " + e.getMessage());
+            return;
+        }
+    
+        // Save the updated movie back to the CSV file (not implemented in this snippet)
+        System.out.println("Updated Movie: " + movie);
+    }
+    
 
 }

@@ -1,13 +1,9 @@
 package com.netflix;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-/*
- * Movie class to store movie details
- * @Params show_id, type, title, director, cast, country, date_added, release_year, rating, duration, listed_in, description
- * @Return attributes through getters and setters
- * @Override toString
- */
 public class Movie {
     private String show_id;
     private String type;
@@ -37,117 +33,41 @@ public class Movie {
         this.duration = duration;
         this.listed_in = listed_in;
         this.description = description;
-        this.review = review;
+        this.review = review != null ? review : new ArrayList<>();
     }
 
-    public Movie(){
-
+    public Movie() {
+        this.review = new ArrayList<>();
     }
 
-    // Getters
-    public String getShow_id() {
+    public String getId() {
+
         return show_id;
-    }
 
-    public String getType() {
-        return type;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public String getCast() {
-        return cast;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public String getDate_added() {
-        return date_added;
-    }
-
-    public int getRelease_year() {
-        return release_year;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public String getListed_in() {
-        return listed_in;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public List<String> getReview() {
         return review;
     }
 
-    // Setters
-    public void setShow_id(String show_id) {
-        this.show_id = show_id;
+    public void setReviewFromString(String reviewString) {
+        if (reviewString != null && !reviewString.isEmpty()) {
+            this.review = Arrays.asList(reviewString.split("\\|"));
+        } else {
+            this.review = new ArrayList<>();
+        }
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public String getReviewAsString() {
+        return String.join("|", this.review);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    public void setCast(String cast) {
-        this.cast = cast;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public void setDate_added(String date_added) {
-        this.date_added = date_added;
-    }
-
-    public void setRelease_year(int release_year) {
-        this.release_year = release_year;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public void setListed_in(String listed_in) {
-        this.listed_in = listed_in;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setReview(List<String> review) {
-        this.review = review;
+    public void addReview(String comment) {
+        if (comment != null && !comment.trim().isEmpty()) {
+            this.review.add(comment);
+        } else {
+            throw new IllegalArgumentException("Review comment cannot be null or empty.");
+        }
     }
 
     @Override
@@ -165,7 +85,7 @@ public class Movie {
                 ", duration='" + duration + '\'' +
                 ", listed_in='" + listed_in + '\'' +
                 ", description='" + description + '\'' +
-                ", review=" + review +
+                ", reviews=" + (review.isEmpty() ? "No reviews yet" : review) +
                 '}';
     }
 }
