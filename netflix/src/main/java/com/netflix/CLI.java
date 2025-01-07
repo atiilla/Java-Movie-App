@@ -15,6 +15,7 @@ import picocli.CommandLine;
 @CommandLine.Command(name = "netflix-cli", mixinStandardHelpOptions = true, description = "Netflix CLI to manage movies", subcommands = {
         SearchCommand.class } // Register SearchCommand as a subcommand
 )
+
 public class CLI implements Callable<Integer> {
 
     /**
@@ -44,13 +45,10 @@ public class CLI implements Callable<Integer> {
      */
     @CommandLine.Command(name = "review", description = "Add a review")
     void addReview(
-            @CommandLine.Option(names = { "-i", "--id" }, description = "Show ID of the movie to review") String showId,
-            @CommandLine.Option(names = { "-c", "--comment" }, description = "Comment for the movie") String comment) {
-        if (showId == null || comment == null) {
-            System.out.println("Show ID and comment are required.");
-            // Display usage
-            return;
-        }
+            @CommandLine.Option(names = { "-i",
+                    "--id" }, description = "Show ID of the movie to review", required = true) String showId,
+            @CommandLine.Option(names = { "-c",
+                    "--comment" }, description = "Comment for the movie", required = true) String comment) {
 
         System.out.println("Adding a review...");
 
@@ -59,7 +57,6 @@ public class CLI implements Callable<Integer> {
         System.out.println("Review added successfully.");
         System.out.println("Show ID: " + showId);
         System.out.println("Comment: " + comment);
-
     }
 
     /*
@@ -93,19 +90,13 @@ public class CLI implements Callable<Integer> {
      */
     @Override
     public Integer call() throws Exception {
-        System.err.println("Use 'netflix-cli --help' for usage.");
-        return 1;
+        // System.err.println("Use 'netflix-cli --help' for usage.");
+        // return 1;
+        CommandLine.usage(this, System.out);
+        return 0; // Return success code after showing usage
     }
 
-    /**
-     * Main entry point for the Netflix CLI application.
-     *
-     * @param args Command-line arguments passed by the user.
-     */
-    public static void main(String[] args) {
-        int exitCode = new CommandLine(new CLI()).execute(args);
-        System.exit(exitCode);
-    }
+
 }
 
 /**
@@ -113,40 +104,24 @@ public class CLI implements Callable<Integer> {
  * Users can search by name, year, category, or director using command-line
  * options.
  */
-@CommandLine.Command(name = "search", description = "Search movies by name, year, category, or director")
+@CommandLine.Command(name = "search", description = "Search movies by name, year, category, or director", mixinStandardHelpOptions = true)
 class SearchCommand implements Callable<Integer> {
 
-    /**
-     * Option to search movies by name.
-     */
-    // java -jar target\netflix-1.0-SNAPSHOT.jar search --name The Matrix
     @CommandLine.Option(names = { "-n", "--name" }, description = "Search movies by name")
     String name;
 
-    /**
-     * Option to search movies by year.
-     */
     @CommandLine.Option(names = { "-y", "--year" }, description = "Search movies by year")
     String year;
 
-    /**
-     * Option to search movies by category.
-     */
     @CommandLine.Option(names = { "-c", "--category" }, description = "Search movies by category")
     String category;
 
-    /**
-     * Option to search movies by director.
-     */
     @CommandLine.Option(names = { "-d", "--director" }, description = "Search movies by director")
     String director;
 
-    /**
-     * Executes the search functionality based on the provided options.
-     * Displays appropriate messages for the selected search criterion.
-     *
-     * @return Exit code (0 indicates success).
-     */
+    @CommandLine.Spec
+    CommandLine.Model.CommandSpec spec; // Injected to access command metadata
+
     @Override
     public Integer call() {
         if (name != null) {
@@ -162,8 +137,12 @@ class SearchCommand implements Callable<Integer> {
             System.out.println("Searching movies by director: " + director);
             DBActions.listByDirector(director);
         } else {
-            System.out.println("Invalid search criteria or no search criteria provided.");
+            // Show help message when no criteria are provided
+            throw new CommandLine.ParameterException(
+                    spec.commandLine(),
+                    "No search criteria provided. Please specify at least one option.");
         }
         return 0;
     }
+
 }
