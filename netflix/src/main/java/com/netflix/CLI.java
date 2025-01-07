@@ -65,7 +65,7 @@ public class CLI implements Callable<Integer> {
      * netflix-cli list --limit 5 --page 1
      * netflix-cli list --help (to display usage of list command)
      */
-    @CommandLine.Command(name = "list", description = "List all movies", mixinStandardHelpOptions = true)
+    @CommandLine.Command(name = "list", description = "List all movies")
     void getMovieList(
             @CommandLine.Option(names = {
                     "--limit" }, description = "Number of movies per page", defaultValue = "5") int limit,
@@ -104,7 +104,7 @@ public class CLI implements Callable<Integer> {
  * Users can search by name, year, category, or director using command-line
  * options.
  */
-@CommandLine.Command(name = "search", description = "Search movies by name, year, category, or director", mixinStandardHelpOptions = true)
+@CommandLine.Command(name = "search", description = "Search movies by name, year, category, or director")
 class SearchCommand implements Callable<Integer> {
 
     @CommandLine.Option(names = { "-n", "--name" }, description = "Search movies by name")
