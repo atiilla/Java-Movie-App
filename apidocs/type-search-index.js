@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"com.netflix","l":"App"},{"p":"com.netflix","l":"CLI"},{"p":"com.netflix","l":"DBActions"},{"p":"com.netflix","l":"Movie"},{"p":"com.netflix","l":"SearchCommand"}];updateSearchResults();
